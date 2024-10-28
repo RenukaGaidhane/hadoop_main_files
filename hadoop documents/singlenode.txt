@@ -1,0 +1,156 @@
+Single node cluster
+..............................................................
+sudo apt update -y
+sudo adduser hduser
+sudo visudo
+hduser ALL=(ALL:ALL) NOPASSWD:ALL
+
+sudo apt install openjdk-8-jdk
+java -version
+pwd
+
+nano .bashrc
+#JAVA
+export JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64/
+export JRE_HOME=/usr/lib/jvm/java-8-openjdk-amd64/jre
+#Hadoop Environment Variables
+export HADOOP_HOME=/usr/local/hadoop
+export HADOOP_CONF_DIR=/usr/local/hadoop/etc/hadoop
+export HADOOP_LOG_DIR=$HADOOP_HOME/logs
+export HADOOP_MAPRED_HOME=$HADOOP_HOME
+# Add Hadoop bin/ directory to PATH
+export PATH=$PATH:$HADOOP_HOME/sbin:$HADOOP_HOME/bin
+export HADOOP_COMMON_LIB_NATIVE_DIR=$HADOOP_HOME/lib/native
+export HADOOP_OPTS="-Djava.library.path=$HADOOP_HOME/lib/native"
+export PDSH_RCMD_TYPE=ssh
+
+
+sudo apt install ssh
+sudo systemctl start ssh
+sudo systemctl enable ssh
+
+sudo apt install pdsh -y
+ssh-keygen -t rsa
+(enter....enter)
+ls -all .ssh
+
+ssh-copy-id -i ~/.ssh/id_rsa.pub hduser@localhost
+ssh hduser@localhost
+exit
+
+(download hadoop)
+wget -c -O hadoop.tar.gz https://dlcdn.apache.org/hadoop/common/hadoop-3.2.4/hadoop-3.2.4.tar.gz
+ls
+tar xvzf hadoop.tar.gz
+sudo mkdir /usr/local/hadoop
+sudo mv hadoop-3.2.4/* /usr/local/hadoop
+ls /usr/local/hadoop
+
+(configure hadoop)
+sudo mkdir -p /usr/local/hadoop/hd_store/tmp
+sudo mkdir -p /usr/local/hadoop/hd_store/namenode
+sudo mkdir -p /usr/local/hadoop/hd_store/datanode
+
+sudo chown -R hduser:hduser /usr/local/hadoop
+sudo chmod 755 -R /usr/local/hadoop
+
+cd /usr/local/hadoop/etc/hadoop
+
+nano hadoop-env.sh
+#JAVA
+export JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64/
+export JRE_HOME=/usr/lib/jvm/java-8-openjdk-amd64/jre
+#Hadoop Environment Variables
+export HADOOP_HOME=/usr/local/hadoop
+export HADOOP_CONF_DIR=/usr/local/hadoop/etc/hadoop
+export HADOOP_LOG_DIR=$HADOOP_HOME/logs
+export HDFS_NAMENODE_USER=hduser
+export HDFS_DATANODE_USER=hduser
+export HDFS_SECONDARYNAMENODE_USER=hduser
+export YARN_RESOURCEMANAGER_USER=hduser
+export YARN_NODEMANAGER_USER=hduser
+export YARN_NODEMANAGER_USER=hduser
+# Add Hadoop bin/ directory to PATH
+export PATH=$PATH:$HADOOP_HOME/sbin:$HADOOP_HOME/bin
+export HADOOP_COMMON_LIB_NATIVE_DIR=$HADOOP_HOME/lib/native
+export HADOOP_OPTS="-Djava.library.path=$HADOOP_HOME/lib/native"
+
+
+nano core-site.xml
+<configuration>
+<property>
+<name>hadoop.tmp.dir</name>
+<value>/usr/local/hadoop/hd_store/tmp</value>
+</property>
+<property>
+<name>fs.defaultFS</name>
+<value>hdfs://localhost:9000</value>
+</property>
+</configuration>
+
+
+nano yarn-site.xml
+<configuration>
+<property>
+<name>yarn.nodemanager.aux-services</name>
+<value>mapreduce_shuffle</value>
+</property>
+</configuration>
+
+nano hdfs-site.xml
+<configuration>
+<property>
+<name>dfs.replication</name>
+<value>1</value>
+</property>
+<property>
+<name>dfs.name.dir</name>
+<value>/usr/local/hadoop/hd_store/namenode</value>
+</property>
+<property>
+<name>dfs.data.dir</name>
+<value>/usr/local/hadoop/hd_store/datanode</value>
+</property>
+</configuration>
+
+nano mapred-site.xml
+<configuration>
+<property>
+<name>mapreduce.framework.name</name>
+<value>yarn</value>
+</property>
+<property>
+<name>yarn.app.mapreduce.am.env</name>
+<value>HADOOP_MAPRED_HOME=$HADOOP_HOME<
+/value>
+</property>
+<property>
+<name>mapreduce.map.env</name>
+<value>HADOOP_MAPRED_HOME=$HADOOP_HOME<
+/value>
+</property>
+<property>
+<name>mapreduce.reduce.env</name>
+<value>HADOOP_MAPRED_HOME=$HADOOP_HOME<
+/value>
+</property>
+</configuration>
+
+nano workers
+
+
+
+cd
+hadoop namenode -formate
+start-dfs.ssh
+jps
+  (datanode, jps, secondary nammenode, namenode)
+start-yarn.sh
+jps
+ (datanode, jps, secondary nammenode, namenode, nodemanager, resource manager)
+
+
+..................................................................................................................................................................
+
+
+
