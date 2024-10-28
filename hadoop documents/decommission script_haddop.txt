@@ -1,0 +1,116 @@
+#...............................decomission script                                                                                                      decom.sh *
+#!/bin/bash
+echo "enter name of node to decommission:"
+read node
+echo $node >> /usr/local/hadoop/etc/hadoop/dfs.hosts.exclude
+hdfs dfsadmin -refreshNodes
+...................................................
+----shutdown all machine with services
+stop-all.sh
+echo ########
+echo "##### Hadoop daemon stoped ######"
+ssh -t hduser@DN3 "sudo init 0"
+ssh -t hduser@DN@ "sudo init 0"
+ssh -t hduser@DN1 "sudo init 0"
+echo "##### shuting down name node server #####"
+sudo init 0
+...................
+----commission revert normal
+#!/bin/bash
+echo "Enter the name of node"
+read node
+sed -i  /$node/d /usr/local/hadoop/etc/hadoop/dfs.hosts.exclude
+hdfs dfsadmin -refreshNodes
+
+###rackawareness###
+cd /usr/local/hadoop/etc/hadoop
+1)nano rack-map.py  (add program from hadoop-main folder in rackawarenes file python3,indentation ,print lla bracket taka aathvanine)
+2)create txt file (add IP'S)
+3)core-site.xml add property
+<property>
+<name>net.topology.script.file.name</name>
+<value>/usr/local/hadoop/etc/hadoop/rack-map.py</value>
+</property>
+
+4)chmod +x name.py
+if require install python3 (sudo apt install python3 -y)
+5)STOP AND START
+6)hdfs dfsadmin -printTopology
+
+
+######Trash#############
+1)create file
+2)create directory
+3)put file to directory
+4)delete file (hdfs dfs -rm -f /dirn/filen)
+
+5) cd /usr/local/hadoop/etc/hadoop core-site.xml (add property)
+<property>
+<name>fs.trash.interval</name>
+<value>60</value>
+</property> 
+
+6)hdfs dfs -ls /user (press enter until you get full path)
+7)hdfs dfsadmin -mv /user/hduser/.Trash/Current/dirn/filen /dirn (where you want to mv deleted file)
+8)hdfs dfsadmin -ls /dirn
+
+####### ADD USER CMD ON MANAGER (for more users)
+1)sudo groupadd hpcsa
+2)sudo adduser --ingroup hpcsa s1
+3)sudo adduser --inproup hpcsa s2
+4)hdfs dfs -mkdir /acts
+5)hdfs dfs chgrp hpcsa /acts
+6)hdfs dfs -ls /acts
+7)sudo nano /etc/bash.bashrc 
+  (export PATH=$PATH:/usr/local/hadoop/bin)
+8)hdfs dfs -chmod 770 /acts (dir name)
+9)su - s1
+  nano s1.txt
+  hdfs dfs -put s1.txt /acts
+  hdfs dfs -ls /acts
+(same for other user cmd 9)
+10)hdfs dfs -rm -f /acts/s2.txt
+11)hdfs dfs -chmod +t /acts
+
+######## ACL COMMANDS ##########
+1)HDFS DFS -MKDIR /ASHU
+2)nano ashu.txt
+3)hdfs dfs -put ashu.txt /Ashu
+4)hdfs dfs -getfacl /Ashu
+5)cd /usr/local/hadoop/etc/hadoop
+  nano hdfs-site.xml
+<property>
+<name>dfs.namenode.acls.enabled</name>
+<value>true</value>
+</property>
+
+  cd
+6)sudo aaduser shweta
+7)hdfs dfsadmin -refreshNodes
+8)hadoop-daemon.sh stop namenode
+  hadoop-daemon.sh start namenode
+9)hdfs dfs -setfacl -m user:shweta:rwx /Ashu
+10)hdfs dfs -getfacl /Ashu
+
+######### DECOMMISION WITHOUT SCRIPT #######
+1) cd /usr/local/hadoop/etc/hadoop
+   nano hdfs-site.xml
+<property>
+<name>dfs.hosts.exclude</name>
+<value>/usr/local/hadoop/etc/hadoop/dfs.hosts.exclude</value>
+</property>
+
+2)nano dfs.hosts.exclude
+  (add node name which you want to decommission)
+3)stop and start services
+
+4)hdfs dfsadmin -refreshNodes
+5)hdfs dfsadmin -report 
+
+####### SET HOSTNAME #########
+1)GO TO TERMINAL 
+  sudo hostnamectl set-hostname hpcsa
+  sudo hostname hpcsa
+  exit
+  sudo visudo 
+  HPCSA ALL=(ALL:ALL) NOPASSWD:ALL
