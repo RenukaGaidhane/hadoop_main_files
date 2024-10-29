@@ -1,0 +1,29 @@
+Rackawareness
+
+
+ nano rack.py
+#!/usr/bin/env python3
+import sys
+DEFAULT_RACK = "/default/default"
+HOST_RACK_FILE = "/usr/local/hadoop/etc/hadoop/rack-map.txt"
+host_rack = {}
+for line in open(HOST_RACK_FILE):
+        (host, rack) = line.split()
+        host_rack[host] = rack
+for host in sys.argv[1:]:
+        if host in host_rack:
+                print (host_rack[host])
+        else:
+                print (DEFAULT_RACK)
+
+
+nano rack-map.txt
+
+192.168.56.124 /default/rack0
+192.168.208.171 /default/rack0
+192.168.208.172 /default/rack1
+dn1 /default/rack0
+dn2 /default/rack0
+DN3 /default/rack1
+
+./rack.py dn1
