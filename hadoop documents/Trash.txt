@@ -1,0 +1,21 @@
+Trash 
+
+cd /usr/local/hadoop/etc/hadoop/
+nano core-site.xml
+<property>
+<name>fs.trash.interval</name>
+<value>100</value>
+</property>
+
+nano test.txt
+hdfs dfs -mkdir /testdata
+hdfs dfs -put test.txt /testdata
+hdfs dfs -rm -f /testdata/test.txt
+ cd /usr/local/hadoop/etc/hadoop/
+ nano core-site.xml
+ cd
+ hdfs dfs -ls /user
+ hdfs dfs -ls /user/hduser/.Trash/Current/testdata/test.txt /testdata
+ hdfs dfs -mv /user/hduser/.Trash/Current/testdata/test.txt /testdata
+ hdfs dfs -ls /testdata
+
