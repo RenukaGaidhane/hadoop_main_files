@@ -1,0 +1,254 @@
+
+hduser@master:/usr/local/hadoop/etc/hadoop$ cd
+hduser@master:~$ cd /usr/local/hadoop/etc/hadoop
+hduser@master:/usr/local/hadoop/etc/hadoop$ ls
+capacity-scheduler.xml            httpfs-log4j.properties     rack-map.py
+configuration.xsl                 httpfs-signature.secret     rack-map.txt
+container-executor.cfg            httpfs-site.xml             rack.py
+core-site.xml                     kms-acls.xml                shellprofile.d
+dfs.hosts.exclude                 kms-env.sh                  ssl-client.xml.example
+hadoop-env.cmd                    kms-log4j.properties        ssl-server.xml.example
+hadoop-env.sh                     kms-site.xml                user_ec_policies.xml.template
+hadoop-metrics2.properties        log4j.properties            workers
+hadoop-policy.xml                 mapred-env.cmd              yarn-env.cmd
+hadoop-user-functions.sh.example  mapred-env.sh               yarn-env.sh
+hdfs-site.xml                     mapred-queues.xml.template  yarnservice-log4j.properties
+httpfs-env.sh                     mapred-site.xml             yarn-site.xml
+hduser@master:/usr/local/hadoop/etc/hadoop$ nano core-site.xml
+hduser@master:/usr/local/hadoop/etc/hadoop$ hdfs --daemon stop namenode
+hduser@master:/usr/local/hadoop/etc/hadoop$ hdfs --daemon start namenode
+hduser@master:/usr/local/hadoop/etc/hadoop$ nano demo3.txt
+hduser@master:/usr/local/hadoop/etc/hadoop$ hdfs dfs rm -f demo.txt
+rm: Unknown command
+Did you mean -rm?  This command begins with a dash.
+Usage: hadoop fs [generic options]
+        [-appendToFile <localsrc> ... <dst>]
+        [-cat [-ignoreCrc] <src> ...]
+        [-checksum <src> ...]
+        [-chgrp [-R] GROUP PATH...]
+        [-chmod [-R] <MODE[,MODE]... | OCTALMODE> PATH...]
+        [-chown [-R] [OWNER][:[GROUP]] PATH...]
+        [-copyFromLocal [-f] [-p] [-l] [-d] [-t <thread count>] [-q <thread pool queue size>] <localsrc> ... <dst>]
+        [-copyToLocal [-f] [-p] [-crc] [-ignoreCrc] [-t <thread count>] [-q <thread pool queue size>] <src> ... <localdst>]
+        [-count [-q] [-h] [-v] [-t [<storage type>]] [-u] [-x] [-e] <path> ...]
+        [-cp [-f] [-p | -p[topax]] [-d] [-t <thread count>] [-q <thread pool queue size>] <src> ... <dst>]
+        [-createSnapshot <snapshotDir> [<snapshotName>]]
+        [-deleteSnapshot <snapshotDir> <snapshotName>]
+        [-df [-h] [<path> ...]]
+        [-du [-s] [-h] [-v] [-x] <path> ...]
+        [-expunge [-immediate]]
+        [-find <path> ... <expression> ...]
+        [-get [-f] [-p] [-crc] [-ignoreCrc] [-t <thread count>] [-q <thread pool queue size>] <src> ... <localdst>]
+        [-getfacl [-R] <path>]
+        [-getfattr [-R] {-n name | -d} [-e en] <path>]
+        [-getmerge [-nl] [-skip-empty-file] <src> <localdst>]
+        [-head <file>]
+        [-help [cmd ...]]
+        [-ls [-C] [-d] [-h] [-q] [-R] [-t] [-S] [-r] [-u] [-e] [<path> ...]]
+        [-mkdir [-p] <path> ...]
+        [-moveFromLocal [-f] [-p] [-l] [-d] <localsrc> ... <dst>]
+        [-moveToLocal <src> <localdst>]
+        [-mv <src> ... <dst>]
+        [-put [-f] [-p] [-l] [-d] [-t <thread count>] [-q <thread pool queue size>] <localsrc> ... <dst>]
+        [-renameSnapshot <snapshotDir> <oldName> <newName>]
+        [-rm [-f] [-r|-R] [-skipTrash] [-safely] <src> ...]
+        [-rmdir [--ignore-fail-on-non-empty] <dir> ...]
+        [-setfacl [-R] [{-b|-k} {-m|-x <acl_spec>} <path>]|[--set <acl_spec> <path>]]
+        [-setfattr {-n name [-v value] | -x name} <path>]
+        [-setrep [-R] [-w] <rep> <path> ...]
+        [-stat [format] <path> ...]
+        [-tail [-f] [-s <sleep interval>] <file>]
+        [-test -[defswrz] <path>]
+        [-text [-ignoreCrc] <src> ...]
+        [-touch [-a] [-m] [-t TIMESTAMP (yyyyMMdd:HHmmss) ] [-c] <path> ...]
+        [-touchz <path> ...]
+        [-truncate [-w] <length> <path> ...]
+        [-usage [cmd ...]]
+
+Generic options supported are:
+-conf <configuration file>        specify an application configuration file
+-D <property=value>               define a value for a given property
+-fs <file:///|hdfs://namenode:port> specify default filesystem URL to use, overrides 'fs.defaultFS' property from configurations.
+-jt <local|resourcemanager:port>  specify a ResourceManager
+-files <file1,...>                specify a comma-separated list of files to be copied to the map reduce cluster
+-libjars <jar1,...>               specify a comma-separated list of jar files to be included in the classpath
+-archives <archive1,...>          specify a comma-separated list of archives to be unarchived on the compute machines
+
+The general command line syntax is:
+command [genericOptions] [commandOptions]
+
+hduser@master:/usr/local/hadoop/etc/hadoop$ ls
+capacity-scheduler.xml            httpfs-log4j.properties     rack-map.txt
+configuration.xsl                 httpfs-signature.secret     rack.py
+container-executor.cfg            httpfs-site.xml             shellprofile.d
+core-site.xml                     kms-acls.xml                ssl-client.xml.example
+demo3.txt                         kms-env.sh                  ssl-server.xml.example
+dfs.hosts.exclude                 kms-log4j.properties        user_ec_policies.xml.template
+hadoop-env.cmd                    kms-site.xml                workers
+hadoop-env.sh                     log4j.properties            yarn-env.cmd
+hadoop-metrics2.properties        mapred-env.cmd              yarn-env.sh
+hadoop-policy.xml                 mapred-env.sh               yarnservice-log4j.properties
+hadoop-user-functions.sh.example  mapred-queues.xml.template  yarn-site.xml
+hdfs-site.xml                     mapred-site.xml
+httpfs-env.sh                     rack-map.py
+hduser@master:/usr/local/hadoop/etc/hadoop$ hdfs dfs -ls /
+Found 12 items
+drwxrwx---   - hduser scientist           0 2024-10-28 01:16 /ISRO
+-rw-r--r--   2 hduser supergroup         27 2024-10-26 05:29 /assignment
+drwxr-xr-x   - hduser supergroup          0 2024-10-26 05:45 /demo
+drwxrwx---   - s2     supergroup          0 2024-10-27 06:01 /disney
+drwxr-xr-x   - hduser supergroup          0 2024-10-27 23:54 /new-data
+drwxr-xr-x   - hduser supergroup          0 2024-10-29 00:46 /new-data1
+drwxrwx---   - hduser cartoon             0 2024-10-27 07:08 /pogo
+drwxr-xr-x   - hduser supergroup          0 2024-10-28 00:11 /result
+drwxrwx---   - s1     supergroup          0 2024-10-27 05:01 /survey
+drwx------   - hduser supergroup          0 2024-10-28 00:06 /tmp
+drwxr-xr-x   - hduser supergroup          0 2024-10-28 11:44 /trash
+drwx------   - hduser supergroup          0 2024-10-26 05:42 /user
+hduser@master:/usr/local/hadoop/etc/hadoop$ hdfs dfs -put demo3.txt /demo
+hduser@master:/usr/local/hadoop/etc/hadoop$ hdfs dfs -rm -f /demo/demo3.txt
+2024-10-29 01:06:33,290 INFO fs.TrashPolicyDefault: Moved: 'hdfs://master:9000/demo/demo3.txt' to trash at: hdfs://master:9000/user/hduser/.Trash/Current/demo/demo3.txt
+hduser@master:/usr/local/hadoop/etc/hadoop$ hdfs dfs -ls /
+Found 12 items
+drwxrwx---   - hduser scientist           0 2024-10-28 01:16 /ISRO
+-rw-r--r--   2 hduser supergroup         27 2024-10-26 05:29 /assignment
+drwxr-xr-x   - hduser supergroup          0 2024-10-29 01:06 /demo
+drwxrwx---   - s2     supergroup          0 2024-10-27 06:01 /disney
+drwxr-xr-x   - hduser supergroup          0 2024-10-27 23:54 /new-data
+drwxr-xr-x   - hduser supergroup          0 2024-10-29 00:46 /new-data1
+drwxrwx---   - hduser cartoon             0 2024-10-27 07:08 /pogo
+drwxr-xr-x   - hduser supergroup          0 2024-10-28 00:11 /result
+drwxrwx---   - s1     supergroup          0 2024-10-27 05:01 /survey
+drwx------   - hduser supergroup          0 2024-10-28 00:06 /tmp
+drwxr-xr-x   - hduser supergroup          0 2024-10-28 11:44 /trash
+drwx------   - hduser supergroup          0 2024-10-26 05:42 /user
+hduser@master:/usr/local/hadoop/etc/hadoop$ hdfs dfs -ls /user
+Found 1 items
+drwx------   - hduser supergroup          0 2024-10-27 05:51 /user/hduser
+hduser@master:/usr/local/hadoop/etc/hadoop$ hdfs dfs -ls /user/hduser
+Found 2 items
+drwx------   - hduser supergroup          0 2024-10-29 01:06 /user/hduser/.Trash
+drwxr-xr-x   - hduser supergroup          0 2024-10-27 05:51 /user/hduser/disney
+hduser@master:/usr/local/hadoop/etc/hadoop$ hdfs dfs -ls /user/hduser/disney
+hduser@master:/usr/local/hadoop/etc/hadoop$ hdfs dfs -ls /user/hduser/.Trash
+Found 2 items
+drwx------   - hduser supergroup          0 2024-10-28 11:43 /user/hduser/.Trash/241029010000
+drwx------   - hduser supergroup          0 2024-10-29 01:06 /user/hduser/.Trash/Current
+hduser@master:/usr/local/hadoop/etc/hadoop$ hdfs dfs -ls /user/hduser/.Trash/current
+ls: `/user/hduser/.Trash/current': No such file or directory
+hduser@master:/usr/local/hadoop/etc/hadoop$ hdfs dfs -ls /user/hduser/.Trash/Current
+Found 1 items
+drwx------   - hduser supergroup          0 2024-10-29 01:06 /user/hduser/.Trash/Current/demo
+hduser@master:/usr/local/hadoop/etc/hadoop$ hdfs dfs -ls /user/hduser/.Trash/Current/demo
+Found 1 items
+-rw-r--r--   2 hduser supergroup         25 2024-10-29 01:06 /user/hduser/.Trash/Current/demo/demo3.txt
+hduser@master:/usr/local/hadoop/etc/hadoop$ hdfs dfs -ls /user/hduser/.Trash/Current/demo/demo3.txt
+-rw-r--r--   2 hduser supergroup         25 2024-10-29 01:06 /user/hduser/.Trash/Current/demo/demo3.txt
+hduser@master:/usr/local/hadoop/etc/hadoop$ ls
+capacity-scheduler.xml            httpfs-log4j.properties     rack-map.txt
+configuration.xsl                 httpfs-signature.secret     rack.py
+container-executor.cfg            httpfs-site.xml             shellprofile.d
+core-site.xml                     kms-acls.xml                ssl-client.xml.example
+demo3.txt                         kms-env.sh                  ssl-server.xml.example
+dfs.hosts.exclude                 kms-log4j.properties        user_ec_policies.xml.template
+hadoop-env.cmd                    kms-site.xml                workers
+hadoop-env.sh                     log4j.properties            yarn-env.cmd
+hadoop-metrics2.properties        mapred-env.cmd              yarn-env.sh
+hadoop-policy.xml                 mapred-env.sh               yarnservice-log4j.properties
+hadoop-user-functions.sh.example  mapred-queues.xml.template  yarn-site.xml
+hdfs-site.xml                     mapred-site.xml
+httpfs-env.sh                     rack-map.py
+hduser@master:/usr/local/hadoop/etc/hadoop$ hdfs dfs -mv /user/hduser/.Trash/Current/demo/demo3.txt
+-mv: Not enough arguments: expected 2 but got 1
+Usage: hadoop fs [generic options]
+        [-appendToFile <localsrc> ... <dst>]
+        [-cat [-ignoreCrc] <src> ...]
+        [-checksum <src> ...]
+        [-chgrp [-R] GROUP PATH...]
+        [-chmod [-R] <MODE[,MODE]... | OCTALMODE> PATH...]
+        [-chown [-R] [OWNER][:[GROUP]] PATH...]
+        [-copyFromLocal [-f] [-p] [-l] [-d] [-t <thread count>] [-q <thread pool queue size>] <localsrc> ... <dst>]
+        [-copyToLocal [-f] [-p] [-crc] [-ignoreCrc] [-t <thread count>] [-q <thread pool queue size>] <src> ... <localdst>]
+        [-count [-q] [-h] [-v] [-t [<storage type>]] [-u] [-x] [-e] <path> ...]
+        [-cp [-f] [-p | -p[topax]] [-d] [-t <thread count>] [-q <thread pool queue size>] <src> ... <dst>]
+        [-createSnapshot <snapshotDir> [<snapshotName>]]
+        [-deleteSnapshot <snapshotDir> <snapshotName>]
+        [-df [-h] [<path> ...]]
+        [-du [-s] [-h] [-v] [-x] <path> ...]
+        [-expunge [-immediate]]
+        [-find <path> ... <expression> ...]
+        [-get [-f] [-p] [-crc] [-ignoreCrc] [-t <thread count>] [-q <thread pool queue size>] <src> ... <localdst>]
+        [-getfacl [-R] <path>]
+        [-getfattr [-R] {-n name | -d} [-e en] <path>]
+        [-getmerge [-nl] [-skip-empty-file] <src> <localdst>]
+        [-head <file>]
+        [-help [cmd ...]]
+        [-ls [-C] [-d] [-h] [-q] [-R] [-t] [-S] [-r] [-u] [-e] [<path> ...]]
+        [-mkdir [-p] <path> ...]
+        [-moveFromLocal [-f] [-p] [-l] [-d] <localsrc> ... <dst>]
+        [-moveToLocal <src> <localdst>]
+        [-mv <src> ... <dst>]
+        [-put [-f] [-p] [-l] [-d] [-t <thread count>] [-q <thread pool queue size>] <localsrc> ... <dst>]
+        [-renameSnapshot <snapshotDir> <oldName> <newName>]
+        [-rm [-f] [-r|-R] [-skipTrash] [-safely] <src> ...]
+        [-rmdir [--ignore-fail-on-non-empty] <dir> ...]
+        [-setfacl [-R] [{-b|-k} {-m|-x <acl_spec>} <path>]|[--set <acl_spec> <path>]]
+        [-setfattr {-n name [-v value] | -x name} <path>]
+        [-setrep [-R] [-w] <rep> <path> ...]
+        [-stat [format] <path> ...]
+        [-tail [-f] [-s <sleep interval>] <file>]
+        [-test -[defswrz] <path>]
+        [-text [-ignoreCrc] <src> ...]
+        [-touch [-a] [-m] [-t TIMESTAMP (yyyyMMdd:HHmmss) ] [-c] <path> ...]
+        [-touchz <path> ...]
+        [-truncate [-w] <length> <path> ...]
+        [-usage [cmd ...]]
+
+Generic options supported are:
+-conf <configuration file>        specify an application configuration file
+-D <property=value>               define a value for a given property
+-fs <file:///|hdfs://namenode:port> specify default filesystem URL to use, overrides 'fs.defaultFS' property from configurations.
+-jt <local|resourcemanager:port>  specify a ResourceManager
+-files <file1,...>                specify a comma-separated list of files to be copied to the map reduce cluster
+-libjars <jar1,...>               specify a comma-separated list of jar files to be included in the classpath
+-archives <archive1,...>          specify a comma-separated list of archives to be unarchived on the compute machines
+
+The general command line syntax is:
+command [genericOptions] [commandOptions]
+
+Usage: hadoop fs [generic options] -mv <src> ... <dst>
+hduser@master:/usr/local/hadoop/etc/hadoop$ hdfs dfs -mv /user/hduser/.Trash/Current/demo/demo3.txt /demo
+hduser@master:/usr/local/hadoop/etc/hadoop$
+
+
+
+
+
+
+
+
+
+ cd
+  829  cd /usr/local/hadoop/etc/hadoop
+  830  ls
+  831  nano core-site.xml
+  832  hdfs --daemon stop namenode
+  833  hdfs --daemon start namenode
+  834  nano demo3.txt
+  835  hdfs dfs rm -f demo.txt
+  836  ls
+  837  hdfs dfs -ls /
+  838  hdfs dfs -put demo3.txt /demo
+  839  hdfs dfs -rm -f /demo/demo3.txt
+  840  hdfs dfs -ls /
+  841  hdfs dfs -ls /user
+  842  hdfs dfs -ls /user/hduser
+  843  hdfs dfs -ls /user/hduser/disney
+  844  hdfs dfs -ls /user/hduser/.Trash
+  845  hdfs dfs -ls /user/hduser/.Trash/current
+  846  hdfs dfs -ls /user/hduser/.Trash/Current
+  847  hdfs dfs -ls /user/hduser/.Trash/Current/demo
+  848  hdfs dfs -ls /user/hduser/.Trash/Current/demo/demo3.txt
+  849  ls
+  850  hdfs dfs -mv /user/hduser/.Trash/Current/demo/demo3.txt
+  851  hdfs dfs -mv /user/hduser/.Trash/Current/demo/demo3.txt /demo
